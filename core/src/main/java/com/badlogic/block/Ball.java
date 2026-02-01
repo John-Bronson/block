@@ -18,6 +18,15 @@ public class Ball {
         this.size = size;
         this.xSpeed = xSpeed;
         this.ySpeed = ySpeed;
+
+        enum CollisionSide {
+            TOP,
+            BOTTOM,
+            LEFT,
+            RIGHT,
+            NONE
+        }
+
     }
 
     public void update() {
@@ -38,10 +47,8 @@ public class Ball {
 
     public void checkCollision(Paddle paddle) {
         if (collidesWith(paddle)) {
-//            color = Color.GREEN;
             ySpeed = -ySpeed;
         } else {
-//            color = Color.WHITE;
         }
     }
 
