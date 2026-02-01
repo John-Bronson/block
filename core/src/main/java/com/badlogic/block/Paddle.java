@@ -1,6 +1,8 @@
 package com.badlogic.block;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public class Paddle {
@@ -10,6 +12,7 @@ public class Paddle {
     int width;
 
     int screenHeight;
+
 
     public Paddle(int x, int y, int height, int width) {
         this.x = x;

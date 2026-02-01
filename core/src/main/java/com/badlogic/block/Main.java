@@ -37,16 +37,17 @@ public class Main extends ApplicationAdapter {
         int mouseWorldY = Gdx.graphics.getHeight() - Gdx.input.getY();
 
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        shape.begin(ShapeRenderer.ShapeType.Filled);
+
         ball.update();
-        ball.draw(shape);
-
         paddle.update(mouseWorldX, mouseWorldY);
-        paddle.draw(shape);
 
+        shape.begin(ShapeRenderer.ShapeType.Filled);
+        ball.draw(shape);
+        paddle.draw(shape);
         shape.end();
 
         batch.begin();
+        ball.drawDebug(font, batch);
         font.draw(batch, "y is" + Integer.toString(Gdx.input.getY()), 20, 40);
         batch.end();
     }

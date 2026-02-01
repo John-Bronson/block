@@ -2,6 +2,8 @@ package com.badlogic.block;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public class Ball {
@@ -24,9 +26,15 @@ public class Ball {
         this.ySpeed = ySpeed;
     }
 
+    public void drawDebug(BitmapFont font, SpriteBatch batch) {
+        font.draw(batch, "ySpeed is " + ySpeed, 20, 50);
+        font.draw(batch, "xSpeed is " + xSpeed, 20, 60);
+    }
+
     public void update() {
         x += xSpeed;
         y += ySpeed;
+
         if (x < this.size || x > Gdx.graphics.getWidth() - this.size) {
             xSpeed = -xSpeed;
         }
@@ -41,13 +49,6 @@ public class Ball {
     }
 
     public void checkCollision(Paddle paddle) {
-        if (collidesWith(paddle) == CollisionSide.VERT) {
-            ySpeed = -ySpeed;
-        } else {
-        }
-    }
-
-    private CollisionSide collidesWith(Paddle paddle) {
         int ballLeft = x - size;
         int ballRight = x + size;
         int ballBottom = y - size;
@@ -58,17 +59,37 @@ public class Ball {
         int padBottom = paddle.y;
         int padTop = paddle.y + paddle.height;
 
+        // Early out if not overlapping
+        boolean overlapping = collidesWith(ballLeft, ballRight, ballBottom, ballTop, padLeft, padRight, padBottom, padTop);
 
-        if (
-            ballLeft < padRight
-                && ballRight > padLeft
-                && ballBottom < padTop
-                && ballTop > padBottom
-        ) {
-            return CollisionSide.VERT;
+        int overlapX = Math.min(ballRight, padRight) - Math.max(ballLeft, padLeft);
+        int overlapY = Math.min(ballTop, padTop) - Math.max(ballBottom, padBottom);
+
+        if (overlapping) {
+            if (overlapX < overlapY) {
+                int padCenterX = paddle.x + paddle.width / 2;
+                if (x < padCenterX) {
+                    x -= (overlapX + 1);
+                } else {
+                    x += (overlapX + 1);
+                }
+                xSpeed = -xSpeed;
+            } else if (overlapX > overlapY) {
+                int patCenterY = paddle.y + paddle.height / 2;
+                if (y < patCenterY) {
+                    y -= (overlapY + 1);
+                } else {
+                    y += (overlapY + 1);
+                }
+                ySpeed = -ySpeed;
+            }
         }
 
+    }
 
-        return CollisionSide.NONE;
+    private static boolean collidesWith(int ballLeft, int ballRight, int ballBottom, int ballTop, int padLeft, int padRight, int padBottom, int padTop) {
+        return ballLeft < padRight && ballRight > padLeft && ballBottom < padTop && ballTop > padBottom;
     }
 }
+
+
