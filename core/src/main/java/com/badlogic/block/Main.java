@@ -12,14 +12,12 @@ import java.util.Random;
 
 public class Main extends ApplicationAdapter {
     ShapeRenderer shape;
-    //    Ball ball = new Ball(Gdx.graphics.getWidth() / 2, 100, 40, 0, 0);
     private Ball ball;
     private Paddle paddle;
     Random r = new Random();
 
     private BitmapFont font;
     private SpriteBatch batch;
-
 
     @Override
     public void create() {
@@ -33,15 +31,17 @@ public class Main extends ApplicationAdapter {
 
     @Override
     public void render() {
-
         ball.checkCollision(paddle);
+
+        int mouseWorldX = Gdx.input.getX();
+        int mouseWorldY = Gdx.graphics.getHeight() - Gdx.input.getY();
 
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         shape.begin(ShapeRenderer.ShapeType.Filled);
         ball.update();
         ball.draw(shape);
 
-        paddle.update();
+        paddle.update(mouseWorldX, mouseWorldY);
         paddle.draw(shape);
 
         shape.end();

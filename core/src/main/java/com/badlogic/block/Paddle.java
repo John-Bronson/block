@@ -9,7 +9,7 @@ public class Paddle {
     int height;
     int width;
 
-    int cursorY;
+    int screenHeight;
 
     public Paddle(int x, int y, int height, int width) {
         this.x = x;
@@ -18,11 +18,10 @@ public class Paddle {
         this.width = width;
     }
 
-    public void update() {
-        cursorY = Gdx.graphics.getHeight();
-
-        this.x = Gdx.input.getX() - (width / 2);
-//        this.y = (cursorY - Gdx.input.getY() - (height / 2));
+    public void update(int mouseWorldX, int mouseWorldY) {
+        screenHeight = Gdx.graphics.getHeight();
+        this.x = mouseWorldX - (width / 2);
+        this.y = mouseWorldY - (height / 2);
     }
 
     public void draw(ShapeRenderer shape) {

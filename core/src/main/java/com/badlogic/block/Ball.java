@@ -12,21 +12,16 @@ public class Ball {
     int ySpeed;
     Color color = Color.WHITE;
 
+    enum CollisionSide {
+        VERT, HORIZ, NONE
+    }
+
     public Ball(int x, int y, int size, int xSpeed, int ySpeed) {
         this.x = x;
         this.y = y;
         this.size = size;
         this.xSpeed = xSpeed;
         this.ySpeed = ySpeed;
-
-        enum CollisionSide {
-            TOP,
-            BOTTOM,
-            LEFT,
-            RIGHT,
-            NONE
-        }
-
     }
 
     public void update() {
@@ -46,17 +41,34 @@ public class Ball {
     }
 
     public void checkCollision(Paddle paddle) {
-        if (collidesWith(paddle)) {
+        if (collidesWith(paddle) == CollisionSide.VERT) {
             ySpeed = -ySpeed;
         } else {
         }
     }
 
-    private boolean collidesWith(Paddle paddle) {
-        if (x - size < paddle.x + paddle.width && x + size > paddle.x && y - size < paddle.y + paddle.height && y + size > paddle.y) {
-            return true;
+    private CollisionSide collidesWith(Paddle paddle) {
+        int ballLeft = x - size;
+        int ballRight = x + size;
+        int ballBottom = y - size;
+        int ballTop = y + size;
+
+        int padLeft = paddle.x;
+        int padRight = paddle.x + paddle.width;
+        int padBottom = paddle.y;
+        int padTop = paddle.y + paddle.height;
+
+
+        if (
+            ballLeft < padRight
+                && ballRight > padLeft
+                && ballBottom < padTop
+                && ballTop > padBottom
+        ) {
+            return CollisionSide.VERT;
         }
 
-        return false;
+
+        return CollisionSide.NONE;
     }
 }
