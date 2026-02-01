@@ -14,7 +14,7 @@ public class Main extends ApplicationAdapter {
     ShapeRenderer shape;
     //    Ball ball = new Ball(Gdx.graphics.getWidth() / 2, 100, 40, 0, 0);
     private Ball ball;
-    Paddle paddle = new Paddle(100, 300, 20, 100);
+    private Paddle paddle;
     Random r = new Random();
 
     private BitmapFont font;
@@ -23,7 +23,8 @@ public class Main extends ApplicationAdapter {
 
     @Override
     public void create() {
-        ball = new Ball(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 40, 0, 0);
+        ball = new Ball(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 40, 5, 5);
+        paddle = new Paddle(100, 40, 20, 100);
         batch = new SpriteBatch();
         font = new BitmapFont();
         shape = new ShapeRenderer();

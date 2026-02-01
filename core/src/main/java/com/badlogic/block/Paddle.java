@@ -22,7 +22,7 @@ public class Paddle {
         cursorY = Gdx.graphics.getHeight();
 
         this.x = Gdx.input.getX() - (width / 2);
-        this.y = (cursorY - Gdx.input.getY() - (height / 2));
+//        this.y = (cursorY - Gdx.input.getY() - (height / 2));
     }
 
     public void draw(ShapeRenderer shape) {

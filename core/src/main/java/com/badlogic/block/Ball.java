@@ -38,15 +38,16 @@ public class Ball {
 
     public void checkCollision(Paddle paddle) {
         if (collidesWith(paddle)) {
-            color = Color.GREEN;
+//            color = Color.GREEN;
+            ySpeed = -ySpeed;
         } else {
-            color = Color.WHITE;
+//            color = Color.WHITE;
         }
     }
 
     private boolean collidesWith(Paddle paddle) {
-        if (x + size > paddle.x && x < paddle.x + paddle.width) {
-            return y + size > paddle.y && y < paddle.y + paddle.height;
+        if (x - size < paddle.x + paddle.width && x + size > paddle.x && y - size < paddle.y + paddle.height && y + size > paddle.y) {
+            return true;
         }
 
         return false;
