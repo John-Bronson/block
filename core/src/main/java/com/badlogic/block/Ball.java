@@ -48,13 +48,11 @@ public class Ball {
         shape.circle(x, y, size);
     }
 
-    public void checkCollision(Block block) {
-
+    public boolean checkCollision(Collidable collidable) {
+        return checkRectCollision(collidable.getX(), collidable.getY(),
+            collidable.getWidth(), collidable.getHeight());
     }
 
-    public void checkCollision(Paddle paddle) {
-        checkRectCollision(paddle.x, paddle.y, paddle.width, paddle.height);
-    }
 
     private boolean checkRectCollision(int rectX, int rectY, int rectWidth, int rectHeight) {
         int ballLeft = x - size;
@@ -62,35 +60,34 @@ public class Ball {
         int ballBottom = y - size;
         int ballTop = y + size;
 
-        int padLeft = paddle.x;
-        int padRight = paddle.x + paddle.width;
-        int padBottom = paddle.y;
-        int padTop = paddle.y + paddle.height;
+        int rectLeft = rectX;
+        int rectRight = rectX + rectWidth;
+        int rectBottom = rectY;
+        int rectTop = rectY + rectHeight;
 
         // Early out if not overlapping
-        boolean overlapping = collidesWith(ballLeft, ballRight, ballBottom, ballTop, padLeft, padRight, padBottom, padTop);
+        boolean overlapping = collidesWith(ballLeft, ballRight, ballBottom, ballTop, rectLeft, rectRight, rectBottom, rectTop);
+        if (!overlapping) return false;
 
-        int overlapX = Math.min(ballRight, padRight) - Math.max(ballLeft, padLeft);
-        int overlapY = Math.min(ballTop, padTop) - Math.max(ballBottom, padBottom);
+        int overlapX = Math.min(ballRight, rectRight) - Math.max(ballLeft, rectLeft);
+        int overlapY = Math.min(ballTop, rectTop) - Math.max(ballBottom, rectBottom);
 
-        if (overlapping) {
-            if (overlapX < overlapY) {
-                int padCenterX = paddle.x + paddle.width / 2;
-                if (x < padCenterX) {
-                    x -= (overlapX + 1);
-                } else {
-                    x += (overlapX + 1);
-                }
-                xSpeed = -xSpeed;
-            } else if (overlapX > overlapY) {
-                int patCenterY = paddle.y + paddle.height / 2;
-                if (y < patCenterY) {
-                    y -= (overlapY + 1);
-                } else {
-                    y += (overlapY + 1);
-                }
-                ySpeed = -ySpeed;
+        if (overlapX < overlapY) {
+            int padCenterX = rectX + rectWidth / 2;
+            if (x < padCenterX) {
+                x -= (overlapX + 1);
+            } else {
+                x += (overlapX + 1);
             }
+            xSpeed = -xSpeed;
+        } else if (overlapX > overlapY) {
+            int patCenterY = rectY + rectHeight / 2;
+            if (y < patCenterY) {
+                y -= (overlapY + 1);
+            } else {
+                y += (overlapY + 1);
+            }
+            ySpeed = -ySpeed;
         }
 
         return true;

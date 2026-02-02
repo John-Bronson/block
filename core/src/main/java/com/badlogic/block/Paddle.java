@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-public class Paddle {
+public class Paddle implements Collidable {
     int x;
     int y;
     int height;
@@ -20,6 +20,18 @@ public class Paddle {
         this.height = height;
         this.width = width;
     }
+
+    @Override
+    public int getX() { return x; }
+
+    @Override
+    public int getY() { return y; }
+
+    @Override
+    public int getWidth() { return width; }
+
+    @Override
+    public int getHeight() { return height; }
 
     public void update(int mouseWorldX, int mouseWorldY) {
         screenHeight = Gdx.graphics.getHeight();

@@ -41,7 +41,16 @@ public class Main extends ApplicationAdapter {
 
     @Override
     public void render() {
+        // check for collisions
         ball.checkCollision(paddle);
+
+        for (int i = blocks.size() - 1; i >= 0; i--) {
+            Block block = blocks.get(i);
+
+            if (ball.checkCollision(block)) {
+                blocks.remove(i);
+            }
+        }
 
         int mouseWorldX = Gdx.input.getX();
         int mouseWorldY = Gdx.graphics.getHeight() - Gdx.input.getY();
