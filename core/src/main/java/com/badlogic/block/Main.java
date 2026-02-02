@@ -19,13 +19,23 @@ public class Main extends ApplicationAdapter {
     private BitmapFont font;
     private SpriteBatch batch;
 
+    ArrayList<Block> blocks = new ArrayList<>();
+
     @Override
     public void create() {
-        ball = new Ball(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 40, 5, 5);
+        ball = new Ball(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 20, 5, 5);
         paddle = new Paddle(100, 40, 20, 100);
         batch = new SpriteBatch();
         font = new BitmapFont();
         shape = new ShapeRenderer();
+
+        int blockWidth = 63;
+        int blockHeight = 20;
+        for (int y = Gdx.graphics.getHeight() / 2; y < Gdx.graphics.getHeight(); y += blockHeight + 10) {
+            for (int x = 0; x < Gdx.graphics.getWidth(); x += blockWidth + 10) {
+                blocks.add(new Block(x, y, blockWidth, blockHeight));
+            }
+        }
     }
 
 
@@ -44,6 +54,12 @@ public class Main extends ApplicationAdapter {
         shape.begin(ShapeRenderer.ShapeType.Filled);
         ball.draw(shape);
         paddle.draw(shape);
+
+        for (int i = blocks.size() - 1; i >= 0; i--) {
+            Block block = blocks.get(i);
+            block.draw(shape);
+        }
+
         shape.end();
 
         batch.begin();

@@ -48,7 +48,15 @@ public class Ball {
         shape.circle(x, y, size);
     }
 
+    public void checkCollision(Block block) {
+
+    }
+
     public void checkCollision(Paddle paddle) {
+        checkRectCollision(paddle.x, paddle.y, paddle.width, paddle.height);
+    }
+
+    private boolean checkRectCollision(int rectX, int rectY, int rectWidth, int rectHeight) {
         int ballLeft = x - size;
         int ballRight = x + size;
         int ballBottom = y - size;
@@ -85,6 +93,7 @@ public class Ball {
             }
         }
 
+        return true;
     }
 
     private static boolean collidesWith(int ballLeft, int ballRight, int ballBottom, int ballTop, int padLeft, int padRight, int padBottom, int padTop) {
